@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GITHUB API</title>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+        }
+        body{
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        hr{
+            width: 50vw;
+            margin: 10px;
+        }
+        .m-10{
+            margin: 10px;
+        }
+        li{
+            display: flex;
+            flex-direction: column;
+        }  
+    </style>
+</head>
+<body>
+    <h1 class="m-10">Github API</h1>
+    <hr>
+    <div class="m-10">
+        <label for="user">Nome do Usuário</label>
+        <input type="text" id="user">
+        <button onclick="getApi()">Buscar</button>
+    </div>
+    <hr>
+    <ul class="m-10"></ul>
+
+    <script>
+        function getApi(){
+            const ul = document.querySelector('ul')
+            ul.innerHTML = ''
+            const user = document.querySelector('#user').value
+            fetch(`https://api.github.com/users/${user}/repos`)
+            .then(async res => {
+                let data = await res.json()
+                data.map(item => {
+                    let li = document.createElement('li')
+                    li.classList.add('m-10')
+                    li.innerHTML = `<strong>${item.name}</strong>`
+                    ul.appendChild(li)
+                })
+            })
+            .catch(e => {
+                console.log(e)
+            })
+        }
+    </script>
+</body>
+</html>
